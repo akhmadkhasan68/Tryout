@@ -22,8 +22,14 @@
 		}
 	}
 
-	function select_data($con, $table, $where = NULL, $operations = NULL){
-		$sql_select = "SELECT * FROM $table ";
+	function select_data($con, $column, $table, $join = NULL, $where = NULL, $operations = NULL){
+		$sql_select = "SELECT ".$column." FROM $table ";
+		if($join != NULL){
+			$data_join = count($join);
+			for ($i=0; $i < $data_join; $i++) { 
+				$sql_select .= "JOIN ".$join[$i]." ";
+			}
+		}
 		if($where != NULL){
 			$data_where = count($where);
 			for ($i=0; $i < $data_where; $i++) { 
@@ -61,14 +67,22 @@
 		$sql_select = "SELECT * FROM ".$table." ";
 		for($i = 0; $i < $length; $i++){
 			if($i == 0){
-				$sql_select .= "WHERE (".$column[$i]." = '".$value[$i]."'";
+				$sql_select .= "WHERE ".$column[$i]." = '".$value[$i]."'";
 			}else{
-				$sql_select .= " OR ".$column[$i]." = '".$value[$i]."')";
+				$sql_select .= " OR ".$column[$i]." = '".$value[$i]."'";
 			}
 		}
 
 		if($editable != FALSE && $id != NULL){
-			$sql_select .= " AND id != '".$id."'";
+			$sql_select = "SELECT * FROM ".$table;
+			for($i = 0; $i < $length; $i++){
+				if($i == 0){
+					$sql_select .= " WHERE (".$column[$i]." = '".$value[$i]."'";
+				}else{
+					$sql_select .= " OR ".$column[$i]." = '".$value[$i]."')";
+				}
+			}
+			$sql_select .= "AND id != '".$id."'";
 		}
 
 		$select_data = mysqli_query($con, $sql_select);
@@ -81,19 +95,28 @@
 		return $return;
 	}
 
-	function insert_data($con, $table, $data){
+	function insert_data($con, $table, $data, $md5 = null){
 		$column = [];
 		$value = [];
+		$md5_key = [];
+		$md5_value = [];
 
 		foreach ($data as $key => $val) {
 			array_push($column, $key);
 			array_push($value, $val);
 		}
 
-		return process_insert($con, $table, $column, $value);
+		if($md5 != NULL){
+			foreach ($md5 as $kunci => $nilai) {
+				array_push($md5_key, $kunci);
+				array_push($md5_value, $nilai);
+			}			
+		}
+
+		return process_insert($con, $table, $column, $value, $md5_key, $md5_value);
 	}
 
-	function process_insert($con, $table, $column, $value){
+	function process_insert($con, $table, $column, $value, $md5_key, $md5_value){
 		$length = count($column);
 
 		$sql_insert = "INSERT INTO ".$table." (";
@@ -104,12 +127,22 @@
 				$sql_insert .= ", ".$column[$i];
 			}
 		}
+		if($md5_key != NULL){
+			for($a = 0; $a < count($md5_key); $a++){
+				$sql_insert .= ", ".$md5_key[$a];		
+			}
+		}
 		$sql_insert .= ") VALUES (";
 		for($i = 0; $i < $length; $i++){
 			if($i == 0){
 				$sql_insert .= "'".$value[$i]."'";
 			}else{
 				$sql_insert .= ", '".$value[$i]."'";
+			}
+		}
+		if($md5_value != NULL){
+			for($a = 0; $a < count($md5_value); $a++){
+				$sql_insert .= ", md5('".$md5_value[$a]."')";		
 			}
 		}
 		$sql_insert .= ")";
@@ -122,22 +155,31 @@
 			$return = FALSE;
 		}
 
-		return $return;
+		return $sql_insert;
 	}
 
-	function update_data($con, $table, $data, $id){
+	function update_data($con, $table, $data, $md5 = NULL, $id){
 		$column = [];
 		$value = [];
+		$md5_key = [];
+		$md5_value = [];
 
 		foreach ($data as $key => $val) {
 			array_push($column, $key);
 			array_push($value, $val);
 		}
 
-		return process_update($con, $table, $column, $value, $id);
+		if($md5 != NULL){
+			foreach ($md5 as $kunci => $nilai) {
+				array_push($md5_key, $kunci);
+				array_push($md5_value, $nilai);
+			}			
+		}
+
+		return process_update($con, $table, $column, $value, $md5_key, $md5_value, $id);
 	}
 
-	function process_update($con, $table, $column, $value, $id){
+	function process_update($con, $table, $column, $value, $md5_key, $md5_value, $id){
 		$length = count($column);
 
 		$sql_update = "UPDATE ".$table." SET";
@@ -148,6 +190,13 @@
 				$sql_update .= ", ".$column[$i]." = '".$value[$i]."'";
 			}
 		}
+
+		if($md5_value != NULL){
+			for($a = 0; $a < count($md5_value); $a++){
+				$sql_update .= ", ".$md5_key[$a]." = md5('".$md5_value[$a]."')";
+			}
+		}
+
 		$sql_update .= " WHERE id ='".$id."'";
 
 		$update_data = mysqli_query($con, $sql_update);
@@ -158,7 +207,7 @@
 			$return = FALSE;
 		}
 
-		return $return;
+		return $id;
 	}
 
 	function delete_data($con, $table, $id){

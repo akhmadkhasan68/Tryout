@@ -3,25 +3,37 @@
 	include "../../koneksi/koneksi.php";
 
 	$id = $_POST['id'];
-	$nama_sekolah = $_POST['nama_sekolah'];
-	$npsn = $_POST['npsn'];
+	$nama = $_POST['nama'];
+	$nik = $_POST['nik'];
+	$id_sekolah = $_POST['id_sekolah'];
+	$nomor_tlp = $_POST['nomor_tlp'];
+	$username = $_POST['username'];
 	$alamat = $_POST['alamat'];
+	$id = $_POST['id'];
 
 	$data = [
-		'nama_sekolah' => $nama_sekolah,
-		'npsn' => $npsn,
+		'nama' => $nama,
+		'nik' => $nik,
+		'id_sekolah' => $id_sekolah,
+		'nomor_tlp' => $nomor_tlp,
+		'username' => $username,
 		'alamat' => $alamat
 	];
 
-	$form_validation = [
-		'nama_sekolah' => $nama_sekolah,
-		'npsn' => $npsn,
+	$md5 = [
+		'password' => $nik
 	];
 
-	$validation = validation_data($con, "tbl_sekolah", $form_validation, TRUE, $id);
+	$form_validation = [
+		'nik' => $nik,
+		'username' => $username,
+		'nomor_tlp' => $nomor_tlp
+	];
+
+	$validation = validation_data($con, "tbl_guru", $form_validation, TRUE, $id);
 
 	if($validation == TRUE){
-		$result = update_data($con, "tbl_sekolah", $data, NULL,$id);
+		$result = update_data($con, "tbl_guru", $data, $md5, $id);
 
 		if($result == TRUE){
 			$json_data = [

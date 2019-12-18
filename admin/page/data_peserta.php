@@ -1,17 +1,40 @@
+<?php 
+    $cek_sekolah = select_data($con, "tbl_sekolah", NULL, NULL);
+    if (mysqli_num_rows($cek_sekolah) < 1) {
+?>
+    <div id="content" class="container-fluid">
+        <div class="content-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="alert alert-warning">
+                                <b>Perhatian!</b> anda belum bisa mengakses halaman ini karena anda belum memiliki data sekolah. <a href="index.php?page=data_sekolah">Klik disini!</a> untuk menambahkan data sekolah.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    die();
+    }
+?>
 <div id="content" class="container-fluid">
     <div class="content-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        Total Data Sekolah
+                        Total Data Peserta
                         <h1 style="font-size: 60px;">
                             <?php 
-                                $count = select_data($con, "*","tbl_sekolah", NULL, NULL, NULL);
+                                $count = select_data($con, "tbl_sekolah", NULL, NULL);
                                 echo mysqli_num_rows($count);
                             ?>
                         </h1>
-                        <span style="color: #b0b0b0;">Data Sekolah Dalam Sistem</span>
+                        <span style="color: #b0b0b0;">Data Peserta Yang Terdaftar Dalam Dalam Sistem</span>
                     </div>
                 </div>
             </div>
@@ -50,7 +73,7 @@
                             </tr>
                             <?php 
                                 $no = 1;
-                                $select = select_data($con, "*","tbl_sekolah", NULL, NULL, NULL);
+                                $select = select_data($con, "tbl_sekolah", NULL, NULL);
                                 if(mysqli_num_rows($select) > 0){
                                     while($row = mysqli_fetch_assoc($select)){
                             ?>
@@ -192,7 +215,6 @@
                                                                     window.location.replace("index.php?page=data_sekolah");
                                                                 }, 1000);
                                                             }
-                                                            //console.log(response);
                                                         },
                                                         error: function(){
                                                             alert("Error");
@@ -247,7 +269,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <textarea name="alamat" id="alamat" placeholder="Alamat Sekolah Lengkap" class="form-control"></textarea>
+                        <textarea name="alamat" id="alamat" placeholder="Alamat Sekolah" class="form-control"></textarea>
                     </div>
                 </div>
             </div>

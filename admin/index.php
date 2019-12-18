@@ -88,8 +88,9 @@ include "../function/myfunction.php";
 
                             <li <?php if($_REQUEST['page'] == "data_sekolah"){echo 'class="active"';}?>><a href="index.php?page=data_sekolah"><i class="zmdi zmdi-home"></i>Data Sekolah</a></li>
 
-                            <li class="nav-dropdown <?php if($_REQUEST['page'] == "data_peserta" || $_REQUEST['page'] == "input_individu"){echo 'active';}?>"><a href="#"><i class="zmdi zmdi-account"></i>Peserta</a>
+                            <li class="nav-dropdown <?php if($_REQUEST['page'] == "data_peserta" || $_REQUEST['page'] == "input_individu" || $_REQUEST['page'] == "data_guru"){echo 'active';}?>"><a href="#"><i class="zmdi zmdi-account"></i>Peserta</a>
                                 <ul class="nav-sub">
+                                	<li <?php if($_REQUEST['page'] == "data_guru"){echo 'class="active"';}?>><a href="index.php?page=data_guru">Data Guru</a></li>
                                     <li <?php if($_REQUEST['page'] == "data_peserta"){echo 'class="active"';}?>><a href="index.php?page=data_peserta">Data Peserta</a></li>
                                     <li <?php if($_REQUEST['page'] == "input_individu"){echo 'class="active"';}?>><a href="index.php?page=input_individu">Input Individu</a></li>
                                 </ul>
@@ -131,6 +132,9 @@ include "../function/myfunction.php";
 					                    			break;
 					                    		case 'data_sekolah':
 					                    			echo "<h1>Data Sekolah</h1>";
+					                    			break;
+					                    		case 'data_guru':
+					                    			echo "<h1>Data Guru</h1>";
 					                    			break;
 					                    		case 'data_peserta':
 					                    			echo "<h1>Data Peserta</h1>";
@@ -176,6 +180,12 @@ include "../function/myfunction.php";
 						                    			break;
 						                    		case 'data_sekolah':
 						                    			echo "<li class='active'>Data Sekolah</li>";
+						                    			break;
+						                    		case 'data_guru':
+						                    			echo "
+						                    			<li><a>Peserta</a></li>
+						                    			<li class='active'>Data Guru</li>
+						                    			";
 						                    			break;
 						                    		case 'data_peserta':
 						                    			echo "
@@ -246,6 +256,9 @@ include "../function/myfunction.php";
                     			break;
                     		case 'data_sekolah':
                     			include "page/data_sekolah.php";
+                    			break;
+                    		case 'data_guru':
+                    			include "page/data_guru.php";
                     			break;
                     		case 'data_peserta':
                     			include "page/data_peserta.php";
