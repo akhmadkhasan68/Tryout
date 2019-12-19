@@ -163,6 +163,9 @@ include "../function/myfunction.php";
 					                    		case 'import_sekolah_excel':
 					                    			echo "<h1>Import Data Excel</h1>";
 					                    			break;
+					                    		case 'import_data_guru':
+					                    			echo "<h1>Import Data Excel</h1>";
+					                    			break;
 					                    		default:
 					                    			echo "<h1>Dashboards</h1>";
 					                    			break;
@@ -236,6 +239,11 @@ include "../function/myfunction.php";
 						                    			<li><a>Import Data Sekolah Excel</a></li>
 						                    			";
 						                    			break;
+						                    		case 'import_data_guru':
+						                    			echo "
+						                    			<li><a>Import Data Guru Excel</a></li>
+						                    			";
+						                    			break;
 						                    		default:
 						                    			echo "
 						                    			<li><a>Dashboard</a></li>
@@ -286,6 +294,9 @@ include "../function/myfunction.php";
                     			break;
                     		case 'import_sekolah_excel':
                     			include "page/import_sekolah_excel.php";
+                    			break;
+                    		case 'import_data_guru':
+                    			include "page/import_data_guru.php";
                     			break;
                     		default:
                     			include "page/dashboard.php";

@@ -5,7 +5,6 @@
 	session_start();
 
 	//DELETE ALL DATA 
-	$delete_sekolah = mysqli_query($con, "DELETE FROM tbl_sekolah");
 	$delete_guru = mysqli_query($con, "DELETE FROM tbl_guru");
 
 	// upload file xls
@@ -26,22 +25,32 @@
 	for ($i=2; $i<=$jumlah_baris; $i++){
 	 
 		// menangkap data dan memasukkan ke variabel sesuai dengan kolumnya masing-masing
-		echo $nama_sekolah     = $data->val($i, 1);
-		echo $npsn  = $data->val($i, 2);
-		echo $alamat   = $data->val($i, 3);
+		echo $nama     = $data->val($i, 1);
+		echo $nik  = $data->val($i, 2);
+		echo $npsn   = $data->val($i, 3);
+		echo $tlp   = $data->val($i, 4);
+		echo $alamat   = $data->val($i, 5);
+		echo $username   = $data->val($i, 6);
 	 	
-		$check_data = mysqli_query($con, "SELECT * FROM tbl_sekolah WHERE nama_sekolah = '$nama_sekolah' OR npsn = '$npsn'");
+		$check_data = mysqli_query($con, "SELECT * FROM tbl_guru WHERE nik = '$nik' OR username = '$username' OR nomor_tlp = '$tlp'");
 		if(mysqli_num_rows($check_data ) > 0){
 			$gagal++;
 		}else{
-			if($nama_sekolah != "" && $npsn != "" && $alamat != ""){
-				// input data ke database (table data_pegawai)
-				$upload = mysqli_query($con,"INSERT into tbl_sekolah values('','$nama_sekolah','$npsn','$alamat')");
+			if($nama != "" && $nik != "" && $npsn != "" && $tlp != "" && $alamat != "" && $username != ""){
+				//SELECT ID SEKOLAH
+				$select_sekolah = mysqli_query($con, "SELECT *  FROM tbl_sekolah WHERE npsn = '$npsn'");
+				$rs = mysqli_fetch_assoc($select_sekolah);
+				$id_sekolah = $rs['id'];
+
+				// INPUT DATA KE DATABASE TBL_GURU
+				$upload = mysqli_query($con,"INSERT into tbl_guru values('','$nama','$nik','$id_sekolah', '$tlp', '$alamat', '$username', md5('$nik'))");
 				if($upload){
 					$berhasil++;
 				}else{
 					$gagal++;
 				}
+			}else{
+				$gagal++;
 			}
 		}
 	}
@@ -49,8 +58,8 @@
 	// hapus kembali file .xls yang di upload tadi
 	unlink($_FILES['file']['name']);
 
-	$_SESSION['sekolah_gagal'] = $gagal;
-	$_SESSION['sekolah_berhasil'] = $berhasil;
+	$_SESSION['guru_gagal'] = $gagal;
+	$_SESSION['guru_berhasil'] = $berhasil;
 
-	header("location: ../index.php?page=import_sekolah_excel&upload=TRUE");
+	header("location: ../index.php?page=import_data_guru&upload=TRUE");
 ?>
