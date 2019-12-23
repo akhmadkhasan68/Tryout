@@ -36,12 +36,12 @@
         <form action="login_process.php" method="POST">
           <input type="hidden" name="login_as" value="guru">
           <div class="form-group label-floating is-empty">
-            <label class="control-label">username</label>
-            <input type="text" class="form-control">
+            <label class="control-label">Username / NIK</label>
+            <input type="text" class="form-control" name="username">
           </div>
           <div class="form-group label-floating is-empty">
             <label class="control-label">Password</label>
-            <input type="password" class="form-control">
+            <input type="password" class="form-control" name="password">
           </div>
           <input type="submit" class="btn btn-info btn-block m-t-40" value="Masuk">
         </form>

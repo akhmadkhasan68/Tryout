@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if($_SESSION['logged_in'] == FALSE){
-	header("location: ../login.php");
+	header("location: ../admin.php");
 }
 include "../koneksi/koneksi.php";
 include "../function/myfunction.php";

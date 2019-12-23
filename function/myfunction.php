@@ -2,9 +2,7 @@
 	function login($username, $password, $login_as, $con){
 		if($login_as == "admin"){
 			$select_user = mysqli_query($con, "SELECT * FROM tbl_user WHERE username = '$username' AND password = md5('$password')");
-			echo mysqli_num_rows($select_user);
 			if(mysqli_num_rows($select_user) < 1){
-				//header("location: admin.php?login=false");
 				return $login = false;
 			}else{
 				$row = mysqli_fetch_assoc($select_user);
@@ -16,8 +14,24 @@
 				$_SESSION['login_as'] = $status;
 				$_SESSION['logged_in'] = TRUE;
 
-				//header("location: admin/index.php");
 				return $login = true;
+			}
+		}elseif($login_as == "guru"){
+			$select_user = mysqli_query($con,  "SELECT * FROM tbl_guru WHERE (username = '$username' AND password = md5('$password')) OR (nik = '$username' AND password = md5('$password'))");
+
+			if(mysqli_num_rows($select_user) < 1){
+				return $login = false;
+			}else{
+				$row = mysqli_fetch_assoc($select_user);
+				$username = $row['username'];
+				$status = "guru";
+
+				//SET VARIABLE SESSION
+				$_SESSION['username'] = $username;
+				$_SESSION['login_as'] = $status;
+				$_SESSION['logged_in'] = TRUE;
+
+			 	return $login = true;
 			}
 		}
 	}

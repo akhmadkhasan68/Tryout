@@ -9,9 +9,13 @@
 
 	$login = login($username, $password, $login_as, $con);
 
-	if($login == true){
+	if($login == true && $login_as == "admin"){
 		header("location: admin/index.php");
-	}else{
+	}elseif($login == false && $login_as == "admin"){
 		header("location: admin.php?login=false");
+	}elseif ($login == true && $login_as == "guru") {
+		header("location: guru/index.php");
+	}elseif($login == false && $login_as == "guru"){
+		header("location: login.php?login=false");
 	}
 ?>

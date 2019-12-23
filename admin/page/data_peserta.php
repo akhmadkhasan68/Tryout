@@ -248,46 +248,6 @@
     </div>
 </div>
 
-<!-- MODAL ADD BEGIN -->
-<div class="modal fade" id="modal_add" tabindex="-1" role="dialog" aria-labelledby="modal_add">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h4 class="modal-title" id="myModalLabel-2">Tambah Data Sekolah</h4>
-                <ul class="card-actions icons right-top">
-
-                    <a href="javascript:void(0)" data-dismiss="modal" class="text-white" aria-label="Close">
-                        <i class="zmdi zmdi-close"></i>
-                    </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="text" name="nama_sekolah" id="nama_sekolah" placeholder="Nama Sekolah" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" name="npsn" id="npsn" placeholder="NPSN Sekolah" class="form-control">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <textarea name="alamat" id="alamat" placeholder="Alamat Sekolah" class="form-control"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="batal-add" class="btn btn-default btn-flat" data-dismiss="modal">Batal</button>
-                <button id="submit-add" class="btn btn-primary">Kirim</button>
-            </div>
-        </div>
-        <!-- modal-content -->
-    </div>
-    <!-- modal-dialog -->
-</div>
-<!-- MODAL ADD END -->
 
 <script type="text/javascript">
     $(document).ready(function(){
