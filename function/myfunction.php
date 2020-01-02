@@ -169,7 +169,7 @@
 			$return = FALSE;
 		}
 
-		return $sql_insert;
+		return $return;
 	}
 
 	function update_data($con, $table, $data, $md5 = NULL, $id){

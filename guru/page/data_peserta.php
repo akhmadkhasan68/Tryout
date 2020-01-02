@@ -1,40 +1,17 @@
-<?php 
-    $cek_sekolah = select_data($con, "*", "tbl_sekolah");
-    if (mysqli_num_rows($cek_sekolah) < 1) {
-?>
-    <div id="content" class="container-fluid">
-        <div class="content-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="alert alert-warning">
-                                <b>Perhatian!</b> anda belum bisa mengakses halaman ini karena anda belum memiliki data sekolah. <a href="index.php?page=data_sekolah">Klik disini!</a> untuk menambahkan data sekolah.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php
-    die();
-    }
-?>
 <div id="content" class="container-fluid">
     <div class="content-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        Total Data Peserta
+                        Total Data Peserta 
                         <h1 style="font-size: 60px;">
                             <?php 
-                                $count = select_data($con, "*", "tbl_siswa");
+                                $count = select_data($con, "*", "tbl_siswa", NULL, ["asal_sekolah = '$nama_sekolah'"]);
                                 echo mysqli_num_rows($count);
                             ?>
                         </h1>
-                        <span style="color: #b0b0b0;">Data Peserta Yang Terdaftar Dalam Dalam Sistem</span>
+                        <span style="color: #b0b0b0;">Data Peserta <?php echo $nama_sekolah; ?> Yang Terdaftar Dalam Sistem</span>
                     </div>
                 </div>
             </div>
@@ -46,6 +23,21 @@
                         Data Peserta
                     </div>
                     <div class="card-body">
+                        <!-- BEGIN BUTTON ROW -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a data-toggle="modal" data-target="#modal_add" class="btn btn-info btn-block"><i class="zmdi zmdi-plus"></i>Tambah Data</a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="index.php?page=import_data_guru" class="btn btn-success btn-block"><i class="zmdi zmdi-file-plus"></i>Import Data Excel</a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="../berkas/format_data_guru.xls" class="btn btn-warning btn-block"><i class="zmdi zmdi-download"></i>Download Format Excel</a>
+                            </div>
+                        </div>
+                        <!-- END BUTTON ROW -->
+
+                        <br>
 
                         <!-- BEGIN TABLE ROW -->
                         <table class="table table-bordered table-striped">
@@ -60,7 +52,7 @@
                             </tr>
                             <?php 
                                 $no = 1;
-                                $select = select_data($con, "*", "tbl_siswa s", ["tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"]);
+                                $select = select_data($con, "s.id, s.nama, s.nisn, s.asal_sekolah, s.jenis_kelamin, s.nomor_tlp, s.alamat, s.pembayaran, s.tgl_mendaftar, np.nomor_peserta", "tbl_siswa s", ["tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"], ["s.asal_sekolah = '$nama_sekolah'"]);
                                 if(mysqli_num_rows($select) > 0){
                                     while($row = mysqli_fetch_assoc($select)){
                             ?>
@@ -81,11 +73,11 @@
                                             </td>
                                         </tr>
 
-                                        <!-- MODAL ADD BEGIN -->
+                                        <!-- MODAL DETAIL BEGIN -->
                                         <div class="modal fade" id="moda_detail_<?php echo $row[id];?>" tabindex="-1" role="dialog" aria-labelledby="moda_detail_<?php echo $row[id];?>">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
+                                                    <div class="modal-header" style="background-color: #28be63;">
 
                                                         <h4 class="modal-title" id="myModalLabel-2">Datail Peserta</h4>
                                                         <ul class="card-actions icons right-top">
@@ -119,40 +111,89 @@
                                             </div>
                                             <!-- modal-dialog -->
                                         </div>
-                                        <!-- MODAL ADD END -->
+                                        <!-- MODAL DETAIL END -->
 
-                                        <!-- MODAL CONFIRM  -->
-                                        <div class="modal fade" id="modal-confirm-<?php echo $row[id];?>" tabindex="-1" role="dialog" aria-labelledby="modal-notification" >
+                                        <!-- MODAL DETAIL BEGIN -->
+                                        <div class="modal fade" id="modal_edit_<?php echo $row[id];?>" tabindex="-1" role="dialog" aria-labelledby="modal_edit_<?php echo $row[id];?>">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="modal-title">Apakah anda yakin?</h6>
+                                                    <div class="modal-header" style="background-color: #28be63;">
+
+                                                        <h4 class="modal-title" id="myModalLabel-2">Edit Data Guru</h4>
+                                                        <ul class="card-actions icons right-top">
+
+                                                            <a href="javascript:void(0)" data-dismiss="modal" class="text-white" aria-label="Close">
+                                                                <i class="zmdi zmdi-close"></i>
+                                                            </a>
+                                                            </li>
+                                                        </ul>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div class="alert alert-danger">
-                                                            <b>Peringatan!</b> Menghapus data kelas akan sekaligus menghapus data terkait dengan data kelas. Seperti: Data siswa, data nilai, data pembayaran, dan kartu peserta. <b>Klik Ok untuk melanjutkan!</b>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label>Nama</label>
+                                                                <input type="text" name="nama" id="nama_<?php echo $row[id]?>" placeholder="Nama Guru" class="form-control" value="<?php echo $row[nama] ?>">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>NIK</label>
+                                                                <input type="text" name="nik" id="nik_<?php echo $row[id]?>" placeholder="NIK Guru" class="form-control" value="<?php echo $row[nik] ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label>Asal Sekolah</label>
+                                                                <select class="select form-control" id="id_sekolah_<?php echo $row[id]?>" name="id_sekolah">
+                                                                    <option value="0">Pilih Asal Sekolah</option>
+                                                                    <?php  
+                                                                        $sekolah = select_data($con, "*", "tbl_sekolah", NULL, NULL, NULL);
+                                                                        while ($rs = mysqli_fetch_assoc($sekolah)) {
+                                                                    ?>  
+                                                                        <option value="<?php echo $rs['id'] ?>" <?php if($rs['id'] == $row['id_sekolah']){echo "selected";}?>><?php echo $rs['nama_sekolah'] ?></option>
+                                                                    <?php
+                                                                        }
+                                                                    ?>
+                                                                  </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label>Nomor Telepon</label>
+                                                                <input type="text" name="nomor_tlp" id="nomor_tlp_<?php echo $row[id]?>" placeholder="Nomor Telepon" class="form-control" value="<?php echo $row[nomor_tlp] ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label>Username</label>
+                                                                <input type="text" name="username" id="username_<?php echo $row[id]?>" placeholder="Username" class="form-control" value="<?php echo $row[username] ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label>Alamat</label>
+                                                                <textarea name="alamat" id="alamat_<?php echo $row[id]?>" class="form-control" placeholder="Alamat Lengkap"><?php echo $row[alamat] ?></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-success" id="confirmOk-<?php echo $row[id];?>">Ok</button>
-                                                        <button type="button" class="btn btn-danger" id="confirmCancel-<?php echo $row[id];?>" data-dismiss="modal">Batal</button>
+                                                        <button id="batal-update-<?php echo $row[id];?>" class="btn btn-default btn-flat" data-dismiss="modal">Batal</button>
+                                                        <button id="submit-update-<?php echo $row[id];?>" class="btn btn-primary">Kirim</button>
                                                     </div>
                                                 </div>
+                                                <!-- modal-content -->
                                             </div>
+                                            <!-- modal-dialog -->
                                         </div>
-                                        <!-- END MODAL CONFIRM -->
+                                        <!-- MODAL ADD END -->
 
                                         <script type="text/javascript">
                                             $(document).ready(function(){
-                                                $("#batal-<?php echo $row[id];?>").on('click', function(){
-                                                    window.location.replace("index.php?page=data_peserta");
+                                                $("#batal-update-<?php echo $row[id];?>").on('click', function(){
+                                                    window.location.replace("index.php?page=data_guru");
                                                 });
 
                                                 $("#confirmOk-<?php echo $row[id];?>").on('click', function(){
                                                     var id = '<?php echo $row[id]; ?>';
 
                                                     $.ajax({
-                                                        url: 'ajax/ajax_delete_sekolah.php',
+                                                        url: 'ajax/ajax_delete_guru.php',
                                                         method: 'POST',
                                                         dataType: 'json',
                                                         data: {
@@ -168,7 +209,7 @@
                                                                 toastr.success(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
 
                                                                 setTimeout(function () {
-                                                                    window.location.replace("index.php?page=data_sekolah");
+                                                                    window.location.replace("index.php?page=data_guru");
                                                                 }, 1000);
                                                             }
                                                         },
@@ -180,17 +221,23 @@
 
                                                 $("#submit-update-<?php echo $row[id];?>").on("click", function(){
                                                     var id = '<?php echo $row[id]; ?>';
-                                                    var nama_sekolah = $("#nama_sekolah_<?php echo $row[id];?>").val();
-                                                    var npsn = $("#npsn_<?php echo $row[id];?>").val();
-                                                    var alamat = $("#alamat_<?php echo $row[id];?>").val();
+                                                    var nama = $("#nama_<?php echo $row[id]; ?>").val();
+                                                    var nik = $("#nik_<?php echo $row[id]; ?>").val();
+                                                    var id_sekolah = $("#id_sekolah_<?php echo $row[id]; ?>").val();
+                                                    var nomor_tlp = $("#nomor_tlp_<?php echo $row[id]; ?>").val();
+                                                    var username = $("#username_<?php echo $row[id]; ?>").val();
+                                                    var alamat = $("#alamat_<?php echo $row[id]; ?>").val();
 
                                                     $.ajax({
-                                                        url: 'ajax/ajax_update_sekolah.php',
+                                                        url: 'ajax/ajax_update_guru.php',
                                                         method: 'POST',
                                                         dataType: 'json',
                                                         data: {
-                                                            nama_sekolah: nama_sekolah,
-                                                            npsn: npsn,
+                                                            nama: nama,
+                                                            nik: nik,
+                                                            id_sekolah: id_sekolah,
+                                                            nomor_tlp: nomor_tlp,
+                                                            username: username,
                                                             alamat: alamat,
                                                             id: id
                                                         },
@@ -204,7 +251,7 @@
                                                                 toastr.success(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
 
                                                                 setTimeout(function () {
-                                                                    window.location.replace("index.php?page=data_sekolah");
+                                                                    window.location.replace("index.php?page=data_guru");
                                                                 }, 1000);
                                                             }
                                                         },
@@ -220,7 +267,7 @@
                                 }else{
                                     echo "
                                     <tr>
-                                        <td colspan='5'>
+                                        <td colspan='8'>
                                             <div class='alert alert-warning'>Anda belum memiliki data peserta!</div>
                                         </td>
                                     </tr>";
@@ -235,26 +282,99 @@
     </div>
 </div>
 
+<!-- MODAL ADD BEGIN -->
+<div class="modal fade" id="modal_add" tabindex="-1" role="dialog" aria-labelledby="modal_add">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #28be63;">
+
+                <h4 class="modal-title" id="myModalLabel-2">Tambah Data Peserta</h4>
+                <ul class="card-actions icons right-top">
+
+                    <a href="javascript:void(0)" data-dismiss="modal" class="text-white" aria-label="Close">
+                        <i class="zmdi zmdi-close"></i>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="asal_sekolah" id="asal_sekolah" value="<?php echo $nama_sekolah; ?>">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Nama Peserta</label>
+                            <input type="text" class="form-control" name="nama" id="nama">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">NISN</label>
+                            <input type="text" class="form-control" name="nisn" id="nisn">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group label-floating ">
+                            <label class="control-label">Jenis Kelamin</label>
+                            <input type="radio" name="jenis_kelamin" value="Laki-laki" class="jenis_kelamin"> Laki-laki
+                            &nbsp;
+                            <input type="radio" name="jenis_kelamin" value="Perempuan" class="jenis_kelamin"> Perempuan
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" name="nomor_tlp" id="nomor_tlp">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group label-floating is-empty">
+                            <label class="control-label">Alamat</label>
+                            <textarea name="alamat" id="alamat" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="batal-add" class="btn btn-default btn-flat" data-dismiss="modal">Batal</button>
+                <button id="submit-add" class="btn btn-primary">Kirim</button>
+            </div>
+        </div>
+        <!-- modal-content -->
+    </div>
+    <!-- modal-dialog -->
+</div>
+<!-- MODAL ADD END -->
 
 <script type="text/javascript">
     $(document).ready(function(){
         $("#batal-add").on('click', function(){
-            window.location.replace("index.php?page=data_sekolah");
+            window.location.replace("index.php?page=data_peserta");
         });
 
         $("#submit-add").on("click", function(){
-            var nama_sekolah = $("#nama_sekolah").val();
-            var npsn = $("#npsn").val();
+            var nama = $("#nama").val();
+            var nisn = $("#nisn").val();
+            var jenis_kelamin = $(".jenis_kelamin").val();
+            var nomor_tlp = $("#nomor_tlp").val();
             var alamat = $("#alamat").val();
+            var asal_sekolah = $("#asal_sekolah").val();
 
             $.ajax({
-                url: 'ajax/ajax_add_sekolah.php',
+                url: 'ajax/ajax_add_peserta.php',
                 method: 'POST',
                 dataType: 'json',
                 data: {
-                    nama_sekolah: nama_sekolah,
-                    npsn: npsn,
-                    alamat: alamat
+                    nama: nama,
+                    nisn: nisn,
+                    jenis_kelamin: jenis_kelamin,
+                    nomor_tlp: nomor_tlp,
+                    asal_sekolah: asal_sekolah,
+                    alamat:alamat, 
+                    asal_sekolah:asal_sekolah
                 },
                 success: function(response){
                     if(response.result == false)
@@ -266,9 +386,10 @@
                         toastr.success(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
 
                         setTimeout(function () {
-                            window.location.replace("index.php?page=data_sekolah");
+                            window.location.replace("index.php?page=data_peserta");
                         }, 1000);
                     }
+                    //console.log(response);
                 },
                 error: function(){
                     alert("Error");

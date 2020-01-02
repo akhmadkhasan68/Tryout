@@ -87,7 +87,7 @@
 											<option value="0">Pilih Sekolah Asal</option>
 											<option value="others">Lainnya</option>
 											<?php 
-												$select_sekolah = select_data($con, "*", "tbl_siswa_individu GROUP BY asal_sekolah");
+												$select_sekolah = select_data($con, "*", "tbl_siswa GROUP BY asal_sekolah");
 												while ($rs = mysqli_fetch_assoc($select_sekolah)) {
 											?>
 											<option value="<?php echo $rs['asal_sekolah']; ?>"><?php echo $rs['asal_sekolah']; ?></option>
@@ -150,7 +150,7 @@
             $.ajax({
                 url: 'ajax/ajax_add_peserta_individu.php',
                 method: 'POST',
-                //dataType: 'json',
+                dataType: 'json',
                 data: {
                     nama: nama,
 					nisn: nisn,
@@ -160,19 +160,19 @@
 					alamat:alamat
                 },
                 success: function(response){
-                    // if(response.result == false)
-                    // {
-                    //     toastr.error(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
-                    // }
-                    // if(response.result == true)
-                    // {
-                    //     toastr.success(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
+                    if(response.result == false)
+                    {
+                        toastr.error(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
+                    }
+                    if(response.result == true)
+                    {
+                        toastr.success(response.message.body, response.message.head,{showMethod:"slideDown",hideMethod:"slideUp",timeOut:2e3});
 
-                    //     setTimeout(function () {
-                    //         window.location.replace("index.php?page=data_sekolah");
-                    //     }, 1000);
-                    // }
-                    console.log(response);
+                        setTimeout(function () {
+                            window.location.replace("index.php?page=data_peserta");
+                        }, 1000);
+                    }
+                    //console.log(response);
                 },
                 error: function(){
                     alert("Error");
