@@ -19,6 +19,7 @@ include "../function/myfunction.php";
 	    <link rel="stylesheet" href="assets/css/app.bundle.css">
 	    <link rel="stylesheet" href="assets/css/theme-a.css">
 	    <link rel="stylesheet" href="assets/css/toastr.css">
+	    <link href="../assets/css/loading.css" rel="stylesheet" /> 
         <script src="assets/js/jquery-3.2.1.min.js"></script>
         <script src="assets/js/toastr.min.js"></script>
 	    <script src="assets/js/vendor.bundle.js"></script>
@@ -26,6 +27,7 @@ include "../function/myfunction.php";
 	</head>
 
     <body>
+    	<div class="loading" id="loading-spin" style="z-index: 10000!important;display:none;">Loading&#8230;</div>  
         <div id="app_wrapper">
             <header id="app_topnavbar-wrapper">
                 <nav role="navigation" class="navbar topnavbar">

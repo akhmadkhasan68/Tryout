@@ -46,8 +46,6 @@
     <link rel="stylesheet" href="../../assets/css/app.bundle.css"> -->
 	<style type="text/css">
 		.table{
-			/*border: 1px solid #ddd;*/
-			/*padding: 5px;*/
 			width: 100%;
 			text-align: center;
 		}
@@ -60,22 +58,9 @@
 		h1{
 			font-size: 35px;
 		}
-		@media print {
-		  body * {
-		    visibility: hidden;
-		  }
-		  #section-to-print, #section-to-print * {
-		    visibility: visible;
-		  }
-		  #section-to-print {
-		    position: absolute;
-		    left: 0;
-		    top: 0;
-		  }
-		}
 	</style>
 </head>
-<body style="padding-left: 200px;padding-right: 200px;">
+<body>
 	<div class="section-to-print">
 	 	<table class="table">
 	 		<tr>
