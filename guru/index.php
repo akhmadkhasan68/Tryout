@@ -123,6 +123,9 @@ $npsn = $fetch_guru['npsn'];
 					                    		case 'pembayaran':
 					                    			echo "<h1>Pembayaran</h1>";
 					                    			break;
+					                    		case 'cetak_kartu':
+					                    			echo "<h1>Cetak Kartu</h1>";
+					                    			break;
 					                    		default:
 					                    			echo "<h1>Dashboards</h1>";
 					                    			break;
@@ -143,6 +146,9 @@ $npsn = $fetch_guru['npsn'];
 						                    			break;
 						                    		case 'pembayaran':
 						                    			echo "<li class='active'>Konfirmasi Pembayaran Peserta</li>";
+						                    			break;
+						                    		case 'cetak_kartu':
+						                    			echo "<li class='active'>Cetak Kartu Peserta</li>";
 						                    			break;
 						                    		default:
 						                    			echo "
@@ -167,6 +173,9 @@ $npsn = $fetch_guru['npsn'];
                     			break;
                     		case 'pembayaran':
                     			include "page/pembayaran.php";
+                    			break;
+                    		case 'cetak_kartu':
+                    			include "page/cetak_kartu.php";
                     			break;
                     		default:
                     			include "page/dashboard.php";

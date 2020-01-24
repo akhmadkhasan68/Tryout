@@ -1,7 +1,7 @@
 <!-- <link rel="stylesheet" type="text/css" href="assets/css/cetak.min.css"> -->
 <?php 
-    $cek_ruangujian = select_data($con, "*", "tbl_ruang_ujian");
-    if (mysqli_num_rows($cek_ruangujian) < 1) {
+    $cek_peserta = select_data($con, "*", "tbl_siswa", NULL, ["asal_sekolah = '$nama_sekolah' AND pembayaran = '1'"]);
+    if (mysqli_num_rows($cek_peserta) < 1) {
 ?>
     <div id="content" class="container-fluid">
         <div class="content-body">
@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="alert alert-warning">
-                                <b>Perhatian!</b> anda belum bisa mengakses halaman ini karena anda belum melakukan pembagian ruang ujian. <a href="index.php?page=pembagian_ruangan">Klik disini!</a> untuk melakuakan.
+                                <b>Perhatian!</b> anda belum bisa mengakses halaman ini karena peserta anda belum melakukan pembayaran. <a href="index.php?page=pembayaran">Klik disini!</a> untuk melakuakan.
                             </div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                         Total Data Peserta
                         <h1 style="font-size: 60px;">
                             <?php 
-                                $count = select_data($con, "*", "tbl_siswa", NULL, ["pembayaran = '1'"]);
+                                $count = select_data($con, "*", "tbl_siswa", NULL, ["asal_sekolah = '$nama_sekolah' AND pembayaran = '1'"]);
                                 echo mysqli_num_rows($count);
                             ?>
                         </h1>
@@ -54,53 +54,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <form action="" method="GET">
-                                <div class="col-md-6">
-                                    <input type="hidden" name="page" value="cetak_kartu">
-                                    <div class="form-group label-floating">
-                                        <label class="control-label">Filter Data</label>
-                                        <select name="asal_sekolah" class="select form-control" onchange="form.submit()">
-                                            <option value="0">Filter Asal Sekolah</option>
-                                            <?php 
-                                                $select_asal_sekolah = select_data($con, "*", "tbl_siswa GROUP BY asal_sekolah");
-                                                while ($rs = mysqli_fetch_assoc($select_asal_sekolah)) {
-                                            ?>
-                                                <option value="<?php echo $rs['asal_sekolah']; ?>" <?php if($_REQUEST['asal_sekolah'] == $rs['asal_sekolah']){echo "selected";} ?>><?php echo $rs['asal_sekolah']; ?></option>
-                                            <?php
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </form>
-                            <form method="GET" action="">
-                                <div class="col-md-6">
-                                    <input type="hidden" name="page" value="cetak_kartu">
-                                    <select name="id_ruangan" class="select form-control" onchange="form.submit();">
-                                        <option value="0">Filter Ruangan</option>
-                                        <?php 
-                                            $select_ruangan = select_data($con, "*", "tbl_ruangan");
-                                            while ($rr = mysqli_fetch_assoc($select_ruangan)) {
-                                        ?>
-                                            <option value="<?php echo $rr['id']; ?>" <?php if($_REQUEST['id_ruangan'] == $rr['id']){echo "selected";} ?>><?php echo $rr['nama_ruangan']; ?></option>
-                                        <?php
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-
-                        <?php 
-                            if($_REQUEST['asal_sekolah'] != "0" && $_REQUEST['asal_sekolah'] != ""){
-                                echo '<iframe src="page/cetak_kartu_print.php?asal_sekolah='.$_REQUEST[asal_sekolah].'" style="display:none;" name="frame"></iframe>';
-                            }elseif($_REQUEST['id_ruangan'] != "0" && $_REQUEST['id_ruangan'] != ""){
-                                echo '<iframe src="page/cetak_kartu_print.php?id_ruangan='.$_REQUEST[id_ruangan].'" style="display:none;" name="frame"></iframe>';
-                            }else{
-                                echo '<iframe src="page/cetak_kartu_print.php" style="display:none;" name="frame"></iframe>';
-                            }
-                        ?>
+                        
+                        <iframe src="page/cetak_kartu_print.php" style="display:none;" name="frame"></iframe>
 
                         <div class="row">
                             <div class="col-md-3">
@@ -109,13 +64,7 @@
                         </div>
                         <div class="row">
                         <?php 
-                            if($_REQUEST['asal_sekolah'] != "0" && $_REQUEST['asal_sekolah'] != ""){
-                                $select_peserta = select_data($con, "*", "tbl_ruang_ujian ru", ["tbl_ruangan r ON r.id = ru.id_ruangan", "tbl_siswa s ON s.id = ru.id_siswa", "tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"], ["s.asal_sekolah = '$_REQUEST[asal_sekolah]'"]);
-                            }elseif($_REQUEST['id_ruangan'] != "0" && $_REQUEST['id_ruangan'] != ""){
-                                $select_peserta = select_data($con, "*", "tbl_ruang_ujian ru", ["tbl_ruangan r ON r.id = ru.id_ruangan", "tbl_siswa s ON s.id = ru.id_siswa", "tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"], ["ru.id_ruangan = '$_REQUEST[id_ruangan]'"]);
-                            }else{
-                                $select_peserta = select_data($con, "*", "tbl_ruang_ujian ru", ["tbl_ruangan r ON r.id = ru.id_ruangan", "tbl_siswa s ON s.id = ru.id_siswa", "tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"]);
-                            }
+                            $select_peserta = select_data($con, "*", "tbl_ruang_ujian ru", ["tbl_ruangan r ON r.id = ru.id_ruangan", "tbl_siswa s ON s.id = ru.id_siswa", "tbl_nomor_peserta np ON np.id = s.id_nomor_peserta"], ["s.asal_sekolah = '$nama_sekolah'"]);
                             
                             while ($row = mysqli_fetch_assoc($select_peserta)) {
                         ?>

@@ -45,6 +45,9 @@
 	<!-- <link rel="stylesheet" href="../../assets/css/vendor.bundle.css">
     <link rel="stylesheet" href="../../assets/css/app.bundle.css"> -->
 	<style type="text/css">
+		body{
+			font-size:12px;
+		}
 		.table{
 			width: 100%;
 			text-align: center;
@@ -53,10 +56,10 @@
 			/*border: 1px solid #ddd;*/
 		}
 		.text-head{
-			font-size: 25px;
+			font-size: 18px;
 		}
 		h1{
-			font-size: 35px;
+			font-size: 16px;
 		}
 	</style>
 </head>
@@ -65,7 +68,7 @@
 	 	<table class="table">
 	 		<tr>
 	 			<td width="5%">
-	 				<img src="../../assets/front/img/logo-sch.png" width="120px">
+	 				<img src="../../assets/front/img/logo-sch.png" width="70px">
 	 			</td>
 	 			<td width="95%">
 					<center style="line-height: 0.9; margin-right: 70px;">
@@ -88,16 +91,16 @@
 	 	</table>
 	 	<table class="table">
 	 		<tr>
-	 			<td width="50%" style="text-align: left; padding-left: 100px;">
+	 			<td width="50%" style="text-align: left;">
 	 				Nomor &nbsp;:&nbsp; 660.2/..../B.IV.3/DLH/2019
 	 				<br>
 	 				<br>
-	 				Sifat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; Opsional
+	 				Sifat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp; Undangan
 	 				<br>
 	 				<br>
-	 				Hal	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp; <b style="line-height: 1.6;">Surat undangan untuk mengikuti kegiatan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Try Out Akbar 2020 SMP Muhamadiyah 06 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DAU</b>
+	 				Hal	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp; <b style="line-height: 1.6;">Surat undangan untuk mengikuti kegiatan Try Out Akbar 2020 SMP Muhamadiyah 06 DAU</b>
 	 			</td>
-	 			<td width="50%" style="text-align: right; padding-right: 100px;">
+	 			<td width="50%" style="text-align: right;">
 	 				Malang, <?php echo $date_now;?>
 	 				<br>
 	 				<br>
@@ -115,7 +118,7 @@
 	 			<td width="15%">
 	 				
 	 			</td>
-	 			<td width="75%" align=”justify” style="text-align: justify; font-size: 16px;">
+	 			<td width="75%" align=”justify” style="text-align: justify; font-size: 12px;">
 	 				<p style="display: inline-block; line-height: 1.6;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dalam rangka meningkatkan kualitas pembelajaran siswa, mendorong minat kompetisi siswa dalam belajar, dan mempersiapkan siswa untuk mengikuti Ujian Nasional kami pihak SMP Muhammadiyah 06 Dau mengajak siswa/siswi kelas 6 dari <?php echo $rs['nama_sekolah']; ?> untuk mengikuti kegiatan Try Out Akbar 2020 yang diadakan SMP Muhammadiyah 06 Dau pada:</p>
 	 			</td>
 	 			<td width="10%">
@@ -129,7 +132,7 @@
 	 			<td width="20%">
 	 				
 	 			</td>
-	 			<td width="60%" align=”justify” style="text-align: justify; font-size: 16px;">
+	 			<td width="60%" align=”justify” style="text-align: justify; font-size: 12px;">
 	 				<p style="line-height: 1.6;">
 	 					<b>Hari/Tanggal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</b> Senin, 12 Februari 2020 <br>
 	 					<b>Waktu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</b> 07.00 s.d Selesai (WIB) <br>
@@ -141,27 +144,30 @@
 	 			</td>
 			</tr>
 	 	</table>
-	 	<br>
+	 	
 	 	<table class="table">
 	 		<tr>
 	 			<td width="15%">
 	 				
 	 			</td>
-	 			<td width="75%" align=”justify” style="text-align: justify; font-size: 16px;">
-	 				<p style="display: inline-block; line-height: 1.6;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan degan undangan ini diharapkan <?php echo $rs['nama_sekolah']; ?> dapat mengajak siswa/siswi nya untuk berpartisipasi dalam acara ini. Demikian disampaikan atas perhatian dan kerjasamanya diucapkan terimakasih.</p>
+	 			<td width="75%" align=”justify” style="text-align: justify; font-size: 12px;">
+	 				<p style="display: inline-block; line-height: 1.6;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sehubungan degan undangan ini diharapkan <?php echo $rs['nama_sekolah']; ?> dapat mengajak siswa/siswi nya untuk berpartisipasi dalam acara ini. Demikian disampaikan atas perhatian dan kerjasamanya diucapkan terimakasih.</p>
 	 			</td>
 	 			<td width="10%">
 	 				
 	 			</td>
 			</tr>
 	 	</table>
-
+	 	<br>
+	 	<br>
+	 	<br>
+	 	<br>
 	 	<table class="table">
 	 		<tr>
 	 			<td width="50%" style="text-align: left; padding-left: 100px;">
 	 				
 	 			</td>
-	 			<td width="50%" style="text-align: right; padding-right: 100px;">
+	 			<td width="50%" style="text-align: right;">
 	 				Malang, <?php echo $date_now; ?><br><br>
 	 				Kepala Sekolah SMP Muhammadiyah 06 Dau,
 	 				<br>
