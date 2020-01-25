@@ -177,6 +177,9 @@ $npsn = $fetch_guru['npsn'];
                     		case 'cetak_kartu':
                     			include "page/cetak_kartu.php";
                     			break;
+                    		case 'lihat_nilai':
+                    			include "page/lihat_nilai.php";
+                    			break;
                     		default:
                     			include "page/dashboard.php";
                     			break;
